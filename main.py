@@ -69,7 +69,7 @@ def main():
     driver.get('https://member.bookwalker.jp/app/03/login')
     driver.delete_all_cookies()
     add_cookies(driver, get_cookie_dict(COOKIES))
-    driver.set_window_size(784, 1350)
+    driver.set_window_size(800, 1350)
     driver.get(MANGA_URL)
     print('Preparing for downloading...')
     time.sleep(20)
