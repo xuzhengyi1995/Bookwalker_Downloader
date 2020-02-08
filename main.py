@@ -15,6 +15,8 @@ MANGA_URL = 'https://member.bookwalker.jp/app/03/webstore/cooperation?r=BROWSER_
 COOKIES = 'YOUR_COOKIES_HERE'
 # Folder name, where to put the images
 IMGDIR = "./TEST"
+# Resolution, this manga is 784*1200, you can change it as you want, but check the original image resolution first.
+RES = (784, 1200)
 # If your network is good, you can change it to 1 second, this is the time to load next page.
 SLEEP_TIME = 2
 # Keep True, or there will be a 403 error
@@ -69,7 +71,7 @@ def main():
     driver.get('https://member.bookwalker.jp/app/03/login')
     driver.delete_all_cookies()
     add_cookies(driver, get_cookie_dict(COOKIES))
-    driver.set_window_size(800, 1350)
+    driver.set_window_size(RES[0] + 20, RES[1] + 150)
     driver.get(MANGA_URL)
     print('Preparing for downloading...')
     time.sleep(20)
@@ -84,6 +86,9 @@ def main():
             with open(IMGDIR + '/%d.jpg' % i, 'wb') as f:
                 f.write(base64.b64decode(img_base64))
                 print('Page %s Downloaded' % str(i + 1))
+                if i == page_count - 1:
+                    print('Finished.')
+                    break
 
             next_page = driver.find_element_by_css_selector("#renderer")
             webdriver.ActionChains(driver).move_to_element(

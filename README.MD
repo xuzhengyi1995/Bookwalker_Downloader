@@ -67,4 +67,16 @@ Download manga you rent from <https://bookwalker.jp/>
 
 2.  Keep the `DEBUG = True`, now this website not work with headless Chrome.
 
-3.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
+3.  Resolution, you can change it as you want, but check the original image resolution first.
+
+    ```python
+    RES = (784, 1200)
+    ```
+
+    If the original image has a higher resolution, you can change it like this (The resolution is just a example).
+
+    ```python
+    RES = (1568, 2400)
+    ```
+
+4.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
