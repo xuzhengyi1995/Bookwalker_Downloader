@@ -1,3 +1,4 @@
 *.jpg
 *.png
+*.log
 __pycache__
