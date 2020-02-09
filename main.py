@@ -19,6 +19,10 @@ IMGDIR = "./TEST"
 RES = (784, 1200)
 # If your network is good, you can change it to 1 second, this is the time to load next page.
 SLEEP_TIME = 2
+# Use manual login, if this is true, no need to add cookies.
+MANUAL_LOGIN = False
+# Time wait to load first page
+LOADING_WAIT_TIME = 20
 # Keep True, or there will be a 403 error
 DEBUG = True
 # --------------Settings--------------
@@ -69,16 +73,24 @@ def check_is_loading(list_ele):
 def main():
     driver = get_driver()
     driver.get('https://member.bookwalker.jp/app/03/login')
-    driver.delete_all_cookies()
-    add_cookies(driver, get_cookie_dict(COOKIES))
+    if not MANUAL_LOGIN:
+        driver.delete_all_cookies()
+        add_cookies(driver, get_cookie_dict(COOKIES))
+    else:
+        print('Please login...')
+        WebDriverWait(driver, 120).until_not(
+            lambda x: x.find_elements_by_css_selector('#password'))
+        print('Login successfully, please wait...')
     driver.set_window_size(RES[0] + 20, RES[1] + 150)
     driver.get(MANGA_URL)
     print('Preparing for downloading...')
-    time.sleep(20)
+    time.sleep(LOADING_WAIT_TIME)
     try:
         page_count = int(str(driver.find_element_by_id(
             'pageSliderCounter').text).split('/')[1])
         for i in range(page_count):
+            WebDriverWait(driver, 30).until_not(lambda x: check_is_loading(
+                x.find_elements_by_css_selector(".loading")))
             canvas = driver.find_element_by_css_selector(
                 ".currentScreen canvas")
             img_base64 = driver.execute_script(
@@ -96,8 +108,6 @@ def main():
             WebDriverWait(driver, 30).until_not(lambda x: int(
                 str(driver.find_element_by_id('pageSliderCounter').text).split('/')[0]) == i + 1)
             time.sleep(SLEEP_TIME)
-            WebDriverWait(driver, 30).until_not(lambda x: check_is_loading(
-                x.find_elements_by_css_selector(".loading")))
     except:
         driver.save_screenshot('./error.png')
         print('Something wrong or download finished, Please check the error.png to see the web page.')

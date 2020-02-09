@@ -67,7 +67,11 @@ Download manga you rent from <https://bookwalker.jp/>
 
 2.  Keep the `DEBUG = True`, now this website not work with headless Chrome.
 
-3.  Resolution, you can change it as you want, but check the original image resolution first.
+3.  if you want to login manually, please set the `MANUAL_LOGIN = True`, and input the email and password, click the login button. Then the program will detect you have login and continue running.
+
+4.  `LOADING_WAIT_TIME = 20`, this is the time to wait until the manga viewer page loaded, if your network is not good, you can set it to 30 or 50 seconds.
+
+5.  Resolution, you can change it as you want, but check the original image resolution first.
 
     ```python
     RES = (784, 1200)
@@ -79,4 +83,4 @@ Download manga you rent from <https://bookwalker.jp/>
     RES = (1568, 2400)
     ```
 
-4.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
+6.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
