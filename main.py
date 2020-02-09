@@ -81,7 +81,7 @@ def main():
         WebDriverWait(driver, 120).until_not(
             lambda x: x.find_elements_by_css_selector('#password'))
         print('Login successfully, please wait...')
-    driver.set_window_size(RES[0] + 20, RES[1] + 150)
+    driver.set_window_size(RES[0] + 16, RES[1] + 131)
     driver.get(MANGA_URL)
     print('Preparing for downloading...')
     time.sleep(LOADING_WAIT_TIME)
