@@ -20,12 +20,12 @@ IMGDIR = "./TEST"
 RES = (784, 1200)
 # If your network is good, you can change it to 1 second, this is the time to load next page.
 SLEEP_TIME = 2
-# Use manual login, if this is true, no need to add cookies.
+# Keep False, with headless Chrome, only can login with cookies.
 MANUAL_LOGIN = False
-# Time wait to load first page
+# Time wait to load first page.
 LOADING_WAIT_TIME = 20
-# Keep True, or there will be a 403 error
-DEBUG = True
+# Keep False, now working with headless Chrome.
+DEBUG = False
 # --------------Settings--------------
 
 if not os.path.isdir(IMGDIR):
@@ -37,6 +37,9 @@ def get_driver():
     option.add_argument('high-dpi-support=1')
     option.add_argument('device-scale-factor=1')
     option.add_argument('force-device-scale-factor=1')
+    option.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+    option.add_argument('window-size=%d,%d' % RES)
     if not DEBUG:
         option.add_argument('headless')
     driver = webdriver.Chrome(chrome_options=option)
@@ -84,13 +87,17 @@ def main():
         WebDriverWait(driver, 120).until_not(
             lambda x: x.find_elements_by_css_selector('#password'))
         print('Login successfully, please wait...')
-    driver.set_window_size(RES[0] + 16, RES[1] + 131)
+    driver.set_window_size(RES[0], RES[1])
     driver.get(MANGA_URL)
     print('Preparing for downloading...')
     time.sleep(LOADING_WAIT_TIME)
     try:
         page_count = int(str(driver.find_element_by_id(
             'pageSliderCounter').text).split('/')[1])
+        print('Has %d pages.' % page_count)
+        driver.execute_script(
+            'NFBR.a6G.Initializer.B0U.menu.a6l.moveToPage(0)')
+        time.sleep(SLEEP_TIME)
         for i in range(page_count):
             WebDriverWait(driver, 30).until_not(lambda x: check_is_loading(
                 x.find_elements_by_css_selector(".loading")))
@@ -105,9 +112,8 @@ def main():
                     print('Finished.')
                     break
 
-            next_page = driver.find_element_by_css_selector("#renderer")
-            webdriver.ActionChains(driver).move_to_element(
-                next_page).click().send_keys(Keys.ARROW_LEFT).perform()
+            driver.execute_script(
+                'NFBR.a6G.Initializer.B0U.menu.a6l.moveToPage(%d)' % (i + 1))
             WebDriverWait(driver, 30).until_not(lambda x: int(
                 str(driver.find_element_by_id('pageSliderCounter').text).split('/')[0]) == i + 1)
             time.sleep(SLEEP_TIME)

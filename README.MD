@@ -65,9 +65,11 @@ Download manga you rent from <https://bookwalker.jp/>
 
 1.  The `SLEEP_TIME` by default is 2 seconds, you can adjust it with your own network situation, if the downloading has repeated images, you can change it to 5 or more. If you think it's too slow, try change it to 1 or even 0.5.
 
-2.  Keep the `DEBUG = True`, now this website not work with headless Chrome.
+2.  Keep the `DEBUG = False`, now it works with headless Chrome after changing the `User-Agent`.
 
-3.  if you want to login manually, please set the `MANUAL_LOGIN = True`, and input the email and password, click the login button. Then the program will detect you have login and continue running.
+3.  ~~if you want to login manually, please set the `MANUAL_LOGIN = True`, and input the email and password, click the login button. Then the program will detect you have login and continue running.~~
+
+    **Now with headless Chrome, we can only login with cookies.**
 
 4.  `LOADING_WAIT_TIME = 20`, this is the time to wait until the manga viewer page loaded, if your network is not good, you can set it to 30 or 50 seconds.
 
