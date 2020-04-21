@@ -86,3 +86,17 @@ Download manga you rent from <https://bookwalker.jp/>
     ```
 
 6.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
+
+# 关于中文站点
+
+中文站点为：<https://www.bookwalker.com.tw>
+
+1.  可用于中文站点，`MANGA_URL`为[线上阅读](https://www.bookwalker.com.tw/member/available_book_list)页面的“阅读”按钮，一般URL类似：<https://www.bookwalker.com.tw/browserViewer/56994/read>
+
+2.  `COOKIES`请前往[个人专页](https://www.bookwalker.com.tw/member)，按照上述方法复制COOKIES。
+
+3.  `RES`的寻找方法相同，中文站点部分漫画分辨率较高，例如[小邪神飞踢](https://www.bookwalker.com.tw/browserViewer/56994/read)的原始分辨率为`RES = (1393, 2048)`。
+
+4.  如果出现 **【The eBook chosen cannot be viewed. Please sign-out, then sign-in again. (ERROR998)】** ，还请使用浏览器先退出登陆，再次登陆，并使用浏览器确认该漫画可正常浏览后，更新Cookies再试。
+
+5.  如果出现 **【The eBook chosen cannot open since not yet purchaesd. Please make a purchase and try again.】** , 还请先确认是否已经购买该漫画，再确认Cookies的获取是否为使用`F12`获取，请不要使用JavaScript获取Cookies，因为部分重要Cookies会被设置为http only，这部分Cookies是无法用JavaScript获取到的。

@@ -10,9 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 # --------------Settings--------------
 # The manga URL that in '購入済み書籍一覧', 'Your manga name', 'この本を読む' button
 # Right click the 'この本を読む' and click the 'Copy link address'
+# 中文站点请单击右键复制“阅读”按钮的网址，例如：https://www.bookwalker.com.tw/browserViewer/56994/read
 MANGA_URL = 'https://member.bookwalker.jp/app/03/webstore/cooperation?r=BROWSER_VIEWER/640c0ddd-896c-4881-945f-ad5ce9a070a6/https%3A%2F%2Fbookwalker.jp%2FholdBooks%2F'
 # Your cookies
 # Go to this url: https://member.bookwalker.jp/app/03/my/profile, and copy the cookies.
+# 中文站点请前往“个人专页”获取Cookies：https://www.bookwalker.com.tw/member
 COOKIES = 'YOUR_COOKIES_HERE'
 # Folder name, where to put the images
 IMGDIR = "./TEST"
@@ -27,6 +29,12 @@ LOADING_WAIT_TIME = 20
 # Keep False, now working with headless Chrome.
 DEBUG = False
 # --------------Settings--------------
+if MANGA_URL.find('bookwalker.com.tw') != -1:
+    LOGIN_URL = 'https://www.bookwalker.com.tw/user/login'
+    print('Manga is on site: bookwalker.com.tw')
+else:
+    LOGIN_URL = 'https://member.bookwalker.jp/app/03/login'
+    print('Manga is on site: bookwalker.jp')
 
 if not os.path.isdir(IMGDIR):
     os.mkdir(IMGDIR)
@@ -61,7 +69,7 @@ def add_cookies(driver, cookies):
 
 
 def login(driver, email, password):
-    driver.get('https://member.bookwalker.jp/app/03/login')
+    driver.get(LOGIN_URL)
     driver.find_element_by_id('mailAddress').send_keys(email)
     driver.find_element_by_id('password').send_keys(password)
     driver.find_element_by_name('loginBtn').click()
@@ -78,7 +86,7 @@ def check_is_loading(list_ele):
 
 def main():
     driver = get_driver()
-    driver.get('https://member.bookwalker.jp/app/03/login')
+    driver.get(LOGIN_URL)
     if not MANUAL_LOGIN:
         driver.delete_all_cookies()
         add_cookies(driver, get_cookie_dict(COOKIES))
