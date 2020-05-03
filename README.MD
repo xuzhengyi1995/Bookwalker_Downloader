@@ -87,6 +87,22 @@ Download manga you rent from <https://bookwalker.jp/>
 
 6.  Some time we should log out and log in, this website is very strict and take so many method to prevent abuse.
 
+7.  Now you can cut the image by setting `CUT_IMAGE` at line 35 to (left, upper, right, lower).
+
+    For example you want to cut 3px from the bottom of image, you can set it to:
+
+    ```python
+    CUT_IMAGE = (0, 0, 0, 3)
+    ```
+
+    This function use `Pillow`, if you want to use it, you should install it by using the command:
+
+    ```shell
+    pip install Pillow
+    ```
+
+    By default it is `None`, means do not cut the image, and no need to install `Pillow`.
+
 # 关于中文站点
 
 中文站点为：<https://www.bookwalker.com.tw>

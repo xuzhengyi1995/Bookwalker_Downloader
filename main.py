@@ -28,7 +28,17 @@ MANUAL_LOGIN = False
 LOADING_WAIT_TIME = 20
 # Keep False, now working with headless Chrome.
 DEBUG = False
+# Cut image, (left, upper, right, lower), if you want to cut 3px at bottom, this should be set to:
+# CUT_IMAGE = (0, 0, 0, 3)
+# If no need of this, set it to None as default.
+# This need Pillow, please install it [pip install Pillow]
+CUT_IMAGE = None
 # --------------Settings--------------
+if CUT_IMAGE is not None:
+    import PIL.Image as pil_image
+    from io import BytesIO
+    left, upper, right, lower = CUT_IMAGE
+
 if MANGA_URL.find('bookwalker.com.tw') != -1:
     LOGIN_URL = 'https://www.bookwalker.com.tw/user/login'
     print('Manga is on site: bookwalker.com.tw')
@@ -113,12 +123,19 @@ def main():
                 ".currentScreen canvas")
             img_base64 = driver.execute_script(
                 "return arguments[0].toDataURL('image/jpeg').substring(22);", canvas)
+            image_data = base64.b64decode(img_base64)
             with open(IMGDIR + '/%d.jpg' % i, 'wb') as f:
-                f.write(base64.b64decode(img_base64))
-                print('Page %s Downloaded' % str(i + 1))
-                if i == page_count - 1:
-                    print('Finished.')
-                    break
+                if CUT_IMAGE is None:
+                    f.write(image_data)
+                else:
+                    org_img = pil_image.open(BytesIO(image_data))
+                    width, height = org_img.size
+                    org_img.crop(
+                        (left, upper, width - right, height - lower)).save(f)
+            print('Page %s Downloaded' % str(i + 1))
+            if i == page_count - 1:
+                print('Finished.')
+                break
 
             driver.execute_script(
                 'NFBR.a6G.Initializer.B0U.menu.a6l.moveToPage(%d)' % (i + 1))
