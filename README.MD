@@ -1,5 +1,9 @@
 # Bookwalker_Downloader
 
+**Please check [Manga_downloader](https://github.com/xuzhengyi1995/Manga_downloader), it has the same or even more function, Bookwalker_Downloader may no longer be maintained. Thank you.**
+
+**还请尽量使用新版的[Manga_downloader](https://github.com/xuzhengyi1995/Manga_downloader),该程序拥有相同甚至更多功能，Bookwalker_Downloader可能不会再进行维护。谢谢。**
+
 Download manga you rent from <https://bookwalker.jp/>
 
 # How to Use
